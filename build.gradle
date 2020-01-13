@@ -1,0 +1,43 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+version = '1.0'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    compile 'joda-time:joda-time:2.10.5'
+    
+    testCompile "junit:junit:4.12"
+}
+
+task createJar(type: Jar) {
+	manifest {
+	
+        attributes(
+            'Implementation-Title': 'Core Java and Gradle Integration Example',  
+        	'Implementation-Version': version,
+        	'Main-Class': 'hello.HelloWorld'
+        )
+    }
+    
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+task runJar(dependsOn:createJar) {
+	javaexec {  
+		main="-jar";
+		args = [
+			"./build/libs/core-java-gradle-integration-all-${version}.jar"
+		]
+	}
+}
