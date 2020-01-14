@@ -37,8 +37,6 @@ task createJar(type: Jar) {
 /*task runJar() {
 	javaexec {  
 		main="-jar";
-		args = [
-			"./build/libs/core-java-gradle-integration-all-${version}.jar"
-		]
+		args jar.archivePath
 	}
 }*/
